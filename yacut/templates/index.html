@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-4">Укоротитель ссылок</h1>
+<form method="post">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.original_link.label(class="form-label") }}
+        {{ form.original_link(class="form-control") }}
+        {% for error in form.original_link.errors %}
+            <small class="text-danger">{{ error }}</small>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        {{ form.custom_id.label(class="form-label") }}
+        {{ form.custom_id(class="form-control") }}
+        {% for error in form.custom_id.errors %}
+            <small class="text-danger">{{ error }}</small>
+        {% endfor %}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+
+{% if short_url %}
+    <div class="mt-4">
+        <p>Ваша короткая ссылка:</p>
+        <p><a href="{{ short_url }}">{{ short_url }}</a></p>
+    </div>
+{% endif %}
+{% endblock %}

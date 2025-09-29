@@ -24,7 +24,6 @@ COMMON_ASSERT_MSG_FOR_UPLOAD_FILES = (
 
 @pytest.fixture
 async def mock_server(aiohttp_server):
-    """Возвращает мок-сервер для проверки работы с API Я.Диска."""
     user_calls = set()
     file_names = {}
 
@@ -45,7 +44,6 @@ async def mock_server(aiohttp_server):
         return response_data
 
     async def get_upload_link_handler(request):
-        """Обработчик для запросов на получение ссылки для загрузки файлов."""
         user_calls.add('get_upload_link')
         await check_headers(request.path, request.headers)
         assert 'path' in request.query, (
@@ -77,7 +75,6 @@ async def mock_server(aiohttp_server):
         return web.json_response(response_data, status=200)
 
     async def mock_upload_handler(request):
-        """Обработчик для запросов на загрузку файла."""
         user_calls.add('upload')
         request_data = await request.read()
         assert request_data, (
@@ -90,7 +87,6 @@ async def mock_server(aiohttp_server):
         return web.Response(headers={'Location': location_header}, status=201)
 
     async def mock_get_download_link_handler(request):
-        """Обработчик для запросов на получение ссылки для скачивания файла."""
         user_calls.add('get_download_link')
         await check_headers(request.path, request.headers)
         assert 'path' in request.query, (
@@ -112,7 +108,6 @@ async def mock_server(aiohttp_server):
         return web.json_response(response_data, status=200)
 
     async def disk_info_handler(request):
-        """Обработчик для запроса информации о Я.Диске."""
         return web.json_response(
             {
                 'is_paid': True,
@@ -130,7 +125,6 @@ async def mock_server(aiohttp_server):
         )
 
     async def catch_all_handler(request):
-        """Обработчик для любых других запросов."""
         raise AssertionError(COMMON_ASSERT_MSG_FOR_UPLOAD_FILES)
 
     app = web.Application()
@@ -146,7 +140,6 @@ async def mock_server(aiohttp_server):
 
 
 async def intercept_requests(mock_server, monkeypatch):
-    """Перехватывает запросы к API Я.Диска, используя мок-сервер."""
     def substitute_host(url):
         if 'yandex' in url:
             pattern = r'^(https?:\/\/)([^\/]+)'

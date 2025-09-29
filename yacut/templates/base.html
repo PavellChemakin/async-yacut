@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YaCut</title>
+    <!-- Bootstrap CSS for basic styling. Additional styles can be added
+         by users if desired. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+</head>
+<body>
+<nav class="navbar navbar-light bg-light mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url_for('index_bp.index') }}">YaCut</a>
+        <ul class="nav">
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('index_bp.index') }}">Главная</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('index_bp.upload_files') }}">Загрузить файлы</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-warning" role="alert">
+          {{ message }}
+        </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>
