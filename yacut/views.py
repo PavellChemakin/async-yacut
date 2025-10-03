@@ -3,7 +3,15 @@ import urllib.parse
 from typing import Iterable, List, Tuple
 
 import aiohttp
-from flask import Blueprint, current_app, flash, redirect, render_template, url_for
+from flask import (
+    Blueprint,
+    current_app,
+    flash,
+    redirect,
+    render_template,
+    url_for
+)
+
 
 from . import db
 from .forms import FileUploadForm, URLForm
