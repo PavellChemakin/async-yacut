@@ -1,19 +1,12 @@
-import re
 from http import HTTPStatus
+
 from flask import Blueprint, jsonify, request, url_for
 
-from .models import URLMap
-from .utils import get_unique_short_id
 from . import db
-
+from .models import URLMap
+from .utils import get_unique_short_id, is_valid_custom_id
 
 api_bp = Blueprint('api_bp', __name__, url_prefix='/api')
-
-VALID_CUSTOM_ID = re.compile(r'^[A-Za-z0-9]{1,16}$')
-
-
-def is_valid_custom_id(custom_id: str) -> bool:
-    return bool(VALID_CUSTOM_ID.match(custom_id))
 
 
 @api_bp.route('/id/', methods=['POST'])
@@ -47,7 +40,7 @@ def create_short_id():
         if not is_valid_custom_id(custom_id):
             return jsonify({
                 'message': 'Указано недопустимое имя '
-                'для короткой ссылки'
+                           'для короткой ссылки'
             }), HTTPStatus.BAD_REQUEST
         if URLMap.query.filter_by(short=custom_id).first():
             return (

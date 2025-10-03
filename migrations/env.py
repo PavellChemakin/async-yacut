@@ -1,9 +1,8 @@
 import logging
 from logging.config import fileConfig
 
-from flask import current_app
-
 from alembic import context
+from flask import current_app
 
 fileConfig(config.config_file_name)
 logger = logging.getLogger('alembic.env')

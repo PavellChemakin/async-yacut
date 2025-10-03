@@ -3,19 +3,15 @@ import urllib.parse
 from typing import Iterable, List, Tuple
 
 import aiohttp
-from flask import (
-    Blueprint,
-    current_app,
-    redirect,
-    render_template,
-    url_for,
-    flash,
-)
+from flask import Blueprint, current_app, flash, redirect, render_template, url_for
 
+from . import db
 from .forms import FileUploadForm, URLForm
 from .models import URLMap
 from .utils import get_unique_short_id
-from . import db
+
+API_HOST = 'https://cloud-api.yandex.net'
+API_VERSION = 'v1'
 
 
 index_bp = Blueprint('index_bp', __name__)
@@ -70,13 +66,11 @@ def upload_files():
         files: Iterable = form.files.data
 
         async def process_files(file_storage_list):
-            api_host = 'https://cloud-api.yandex.net'
-            api_version = 'v1'
             request_upload_url = (
-                f'{api_host}/{api_version}/disk/resources/upload'
+                f'{API_HOST}/{API_VERSION}/disk/resources/upload'
             )
             download_link_url = (
-                f'{api_host}/{api_version}/disk/resources/download'
+                f'{API_HOST}/{API_VERSION}/disk/resources/download'
             )
 
             token = current_app.config.get('DISK_TOKEN')

@@ -1,7 +1,8 @@
 import os
+
 from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 
 db = SQLAlchemy()
@@ -23,8 +24,8 @@ def create_app() -> Flask:
     migrate.init_app(app, db)
     csrf.init_app(app)
 
-    from .views import index_bp
     from .api_views import api_bp
+    from .views import index_bp
     app.register_blueprint(index_bp)
     app.register_blueprint(api_bp)
 
